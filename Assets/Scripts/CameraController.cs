@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     public Transform player;
     public Transform playerObject;
     public Rigidbody rb;
+    public Transform overShoulderFocus;
 
     public float rotationSpeed;
 
@@ -25,15 +26,20 @@ public class CameraController : MonoBehaviour
         Vector3 facingDirection = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         facing.forward = facingDirection.normalized;
 
-        //rotate player object
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputDirection = facing.forward * verticalInput + facing.right * horizontalInput;
+        Vector3 overShoulderDir = overShoulderFocus.position - new Vector3(transform.position.x, overShoulderFocus.position.y, transform.position.z);
+        facing.forward = overShoulderDir.normalized;
 
-        if(inputDirection != Vector3.zero)
-        {
-            playerObject.forward = Vector3.Slerp(playerObject.forward, inputDirection.normalized, rotationSpeed * Time.deltaTime);
-        }
+        playerObject.forward = overShoulderDir.normalized;
+
+        //rotate player object
+        //    float horizontalInput = Input.GetAxis("Horizontal");
+        //    float verticalInput = Input.GetAxis("Vertical");
+        //    Vector3 inputDirection = facing.forward * verticalInput + facing.right * horizontalInput;
+
+        //    if(inputDirection != Vector3.zero)
+        //    {
+        //        playerObject.forward = Vector3.Slerp(playerObject.forward, inputDirection.normalized, rotationSpeed * Time.deltaTime);
+        //    }
     }
 
 }
