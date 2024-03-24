@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    private int healthPoints;
+    [HideInInspector] public int healthPoints = 5;
 
-    [HideInInspector] public bool canMove;
-    
+    [HideInInspector] public bool carryingFlag;
+    public GameObject equippedFlag;
+
+    [HideInInspector] public bool canMove;    
+
     private enum element
     {
         Grass,
@@ -23,5 +26,11 @@ public class PlayerStats : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void EquipFlag()
+    {
+        carryingFlag = true;
+        equippedFlag.SetActive(true);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReturnFlag : BaseState
+public class ReturnFlagState : BaseState
 {
     public override void EnterState(EnemyStateMachine enemy)
     {

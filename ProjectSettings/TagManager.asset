@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Enemy Flag
   - Player Flag
+  - Player Goal
+  - Enemy Goal
   layers:
   - Default
   - TransparentFX

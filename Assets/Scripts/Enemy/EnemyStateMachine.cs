@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class EnemyStateMachine : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    BaseState activeState;
+
+    public FindFlagState FindFlagState = new FindFlagState();
+    public ReturnFlagState ReturnFlagState = new ReturnFlagState();
+    public CombatState CombatState = new CombatState();
+    public CombatWithFlagState CombatWithFlagState = new CombatWithFlagState();
+    public PickUpFlagState PickUpFlagState = new PickUpFlagState();
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

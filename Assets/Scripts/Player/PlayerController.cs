@@ -20,10 +20,17 @@ public class PlayerController : MonoBehaviour
     [Header("Grounded")]
     public float height;
     public LayerMask groundLayer;
-    bool grounded;
+    private bool grounded;
+
+    [Header("Shooting")]
+    [SerializeField] private Camera playerCam;
+    [SerializeField] private Transform shootOrigin;
+    private float range = 100f;
+    private float laserTime = 0.05f;
 
     [Header("References")]
     public Transform facing;
+    [SerializeField] private LineRenderer laser;
 
     private float horizontalInput;
     private float verticalInput;
@@ -72,6 +79,28 @@ public class PlayerController : MonoBehaviour
 
             Invoke(nameof(SetCanJump), jumpCooldown);
         }
+
+        if(Input.GetButtonDown("Fire1"))
+        {
+            laser.SetPosition(0, shootOrigin.position);
+            Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1f));
+            RaycastHit hit;
+
+            if (Physics.Raycast(rayOrigin, playerCam.transform.forward, out hit, range))
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("IgnoreRaycast"))
+                {
+                    return;
+                }
+
+                laser.SetPosition(1, hit.point);
+            }
+            else
+            {
+                laser.SetPosition(1, rayOrigin + (playerCam.transform.forward * range));
+            }
+            StartCoroutine(Shoot());
+        }
     }
 
     private void Movement()
@@ -113,5 +142,12 @@ public class PlayerController : MonoBehaviour
     private void SetCanJump()
     {
         canJump = true;
+    }
+
+    IEnumerator Shoot()
+    {
+        laser.enabled = true;
+        yield return new WaitForSeconds(laserTime);
+        laser.enabled = false;
     }
 }
