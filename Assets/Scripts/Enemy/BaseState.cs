@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class BaseState
 {
-    public abstract void EnterState(EnemyStateManager enemy);
+    public abstract void EnterState(EnemyStateMachine enemy);
 
-    public abstract void UpdateState(EnemyStateManager enemy);
+    public abstract void UpdateState(EnemyStateMachine enemy);
 
-    public abstract void OnTriggerEnter(EnemyStateManager enemy, Collider other);
+    public abstract void OnTriggerEnter(EnemyStateMachine enemy, Collider other);
 }

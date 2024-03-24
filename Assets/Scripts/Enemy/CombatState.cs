@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class CombatState : BaseState
 {
-    public override void EnterState(EnemyStateManager enemy)
+    public override void EnterState(EnemyStateMachine enemy)
     {
         return;
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    public override void UpdateState(EnemyStateMachine enemy)
     {
         return;
     }
 
-    public override void OnTriggerEnter(EnemyStateManager enemy, Collider other)
+    public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)
     {
         return;
     }

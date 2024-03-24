@@ -1,25 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class PlayerStats : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    private int healthPoints;
+    public NavMeshAgent agent;
 
     [HideInInspector] public bool canMove;
-    
-    private enum element
-    {
-        Grass,
-        Fire,
-        Water
-    }
 
     void Start()
     {
         
     }
 
+    // Update is called once per frame
     void Update()
     {
         
