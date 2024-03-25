@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyRefs : MonoBehaviour
 {
+    public GameManager gameManager;
+
     public NavMeshAgent agent;
 
     [HideInInspector] public int healthPoints = 5;
@@ -15,7 +17,8 @@ public class EnemyRefs : MonoBehaviour
     [HideInInspector] public bool canMove;
 
     public GameObject[] redBarriers;
-    public GameObject[] blueBarriers;    
+    public GameObject[] blueBarriers;
+    public GameObject safeBarrier;
 
     public enum progress
     {
@@ -43,7 +46,14 @@ public class EnemyRefs : MonoBehaviour
     {
         if(other.CompareTag("Red Barrier"))
         {
-            progressRef = progress.centreArea;
+            if(!carryingFlag)
+            {
+                progressRef = progress.centreArea;
+            }
+            else
+            {
+                progressRef = progress.spawnArea;
+            }
         }
         if (other.CompareTag("Blue Barrier"))
         {
@@ -55,5 +65,15 @@ public class EnemyRefs : MonoBehaviour
     {
         carryingFlag = true;
         equippedFlag.SetActive(true);
+        gameManager.enemyGoal.SetActive(true);
     }
+
+    public void UnequipFlag()
+    {
+        carryingFlag = false;
+        equippedFlag.SetActive(false);
+        gameManager.enemyGoal.SetActive(false);
+    }
+
+
 }

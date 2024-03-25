@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public GameManager gameManager;
+
     [HideInInspector] public int healthPoints = 5;
 
     [HideInInspector] public bool carryingFlag;
@@ -31,6 +33,14 @@ public class PlayerStats : MonoBehaviour
     public void EquipFlag()
     {
         carryingFlag = true;
-        equippedFlag.SetActive(true);
+        equippedFlag.SetActive(true);     
+        gameManager.playerGoal.SetActive(true);
+    }
+
+    public void UnequipFlag()
+    {
+        carryingFlag = false;
+        equippedFlag.SetActive(false);
+        gameManager.playerGoal.SetActive(false);
     }
 }

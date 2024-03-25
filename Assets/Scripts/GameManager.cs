@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,18 +14,36 @@ public class GameManager : MonoBehaviour
     private int playerScore = 0;
     private int enemyScore = 0;
 
+    private float respawnTimer = 5f;
+
     [Header("UI")]
+    [SerializeField] private GameObject generalCanvas;
+    [SerializeField] private GameObject HUDCanvas;
+    [SerializeField] private GameObject deathCanvas;
+
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text playerHPText;
-    [SerializeField] private TMP_Text enemyHPText;
+    [SerializeField] private TMP_Text playerRespawnText;
+    public TMP_Text playerDeathText;
+    [SerializeField] private TMP_Text enemyRespawnText;
 
     [Header("GameObject References")]
+    [SerializeField] private GameObject playerGO;
     [SerializeField] private GameObject playerFlag;
     [SerializeField] private GameObject enemyFlag;
-    [SerializeField] private GameObject playerGoal;
-    [SerializeField] private GameObject enemyGoal;
+    [SerializeField] private GameObject playerRespawn;
+    [SerializeField] private GameObject enemyRespawn;
+    public GameObject playerGoal;
+    public GameObject enemyGoal;
     [SerializeField] private GameObject[] redBarriers;
     [SerializeField] private GameObject[] blueBarriers;
+    [SerializeField] private GameObject blueFlagPF;
+    [SerializeField] private GameObject redFlagPF;
+    [SerializeField] private GameObject explosionPF;
+
+    [Header("Camera References")]
+    [SerializeField] private GameObject thirdPersonCam;
+    [SerializeField] private GameObject deathCam;
 
     [Header("Events")]
     public UnityEvent startRoundEvent;
@@ -74,22 +93,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ActivatePlayerGoal()
-    {
-        playerGoal.SetActive(true);
-    }
-
-    public void ActivateEnemyGoal()
-    {
-        enemyGoal.SetActive(true);
-    }
-
-    public void PlayerGoal()
+    public void PlayerScore()
     {
         Debug.Log("Goal");
     }
 
-    public void EnemyGoal()
+    public void EnemyScore()
     {
 
     }
@@ -102,5 +111,50 @@ public class GameManager : MonoBehaviour
     public void ResetEnemyFlag() 
     {
         enemyFlag.SetActive(true);
+    }
+
+    public void RespawnPlayer()
+    {
+        if(player.carryingFlag) 
+        {
+            player.UnequipFlag();
+            SpawnDroppedFlag(playerGO, blueFlagPF);
+        }
+
+        playerGO.SetActive(false);
+        thirdPersonCam.SetActive(false);
+        HUDCanvas.SetActive(false);
+        deathCam.SetActive(true);
+        deathCanvas.SetActive(true);
+
+        StartCoroutine(PlayerRespawnHelper());        
+    }
+
+    IEnumerator PlayerRespawnHelper()
+    { 
+        float remainingRespawn = respawnTimer; // Initialize remaining respawn time
+
+        while (remainingRespawn > 0)
+        {
+            playerRespawnText.text = "Respawning in: " + remainingRespawn.ToString("F1") + "s";
+            remainingRespawn -= Time.deltaTime;
+            yield return null;
+        }
+
+        playerGO.transform.position = playerRespawn.transform.position;
+        player.healthPoints = 5;
+
+        playerGO.SetActive(true);
+        thirdPersonCam.SetActive(true);
+        HUDCanvas.SetActive(true);
+        deathCam.SetActive(false);
+        deathCanvas.SetActive(false);
+    }
+
+    private void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
+    {
+        Vector3 spawnPos = new Vector3(entity.transform.position.x, 1, entity.transform.position.z);
+        Instantiate(explosionPF, spawnPos, entity.transform.rotation);
+        Instantiate(flagPF, spawnPos, entity.transform.rotation);
     }
 }

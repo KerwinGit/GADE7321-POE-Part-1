@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour
 {
-    public GameManager Manager;
+    public GameManager gameManager;
     public PlayerStats playerStats;
     public EnemyRefs enemyRefs;
 
@@ -12,14 +12,24 @@ public class Barrier : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(this.CompareTag("Red Barrier") && other.CompareTag("Player") && trapped == true)
+        if(this.CompareTag("Red Barrier") && other.CompareTag("Player"))
         {
+            if (trapped == true)
+            {
+                gameManager.playerDeathText.text = "Died To: Trapped Barrier";
+                gameManager.playerDeath.Invoke();
+            }                
             this.gameObject.SetActive(false);
         }
 
-        if(this.CompareTag("Blue Barrier") && other.CompareTag("Enemy") && trapped == true)
+        if(this.CompareTag("Blue Barrier") && other.CompareTag("Enemy"))
         {
+            if(trapped == true)
+            {
+                gameManager.enemyDeath.Invoke();
+            }
             this.gameObject.SetActive(false);
         }
+
     }
 }

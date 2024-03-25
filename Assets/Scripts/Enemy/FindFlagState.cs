@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class FindFlagState : BaseState
 {
+
+
     public override void EnterState(EnemyStateMachine enemy)
     {
         switch(enemy.enemyRefs.progressRef)
         {
             case EnemyRefs.progress.spawnArea:
-                //enemy.enemyRefs.agent.destination = chooseRedBarrier().transform.position;
+
                 break;
             case EnemyRefs.progress.centreArea:
 
@@ -35,11 +37,11 @@ public class FindFlagState : BaseState
 
     //private GameObject chooseRedBarrier()
     //{
-
+    //    return ;
     //}
 
     //private GameObject chooseBlueBarrier()
     //{
-        
+
     //}
 }
