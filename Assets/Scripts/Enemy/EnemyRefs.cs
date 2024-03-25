@@ -29,13 +29,6 @@ public class EnemyRefs : MonoBehaviour
 
     public progress progressRef;
 
-    private enum element
-    {
-        Grass,
-        Fire,
-        Water
-    }
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();

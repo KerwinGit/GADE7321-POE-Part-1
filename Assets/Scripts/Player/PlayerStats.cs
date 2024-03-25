@@ -13,13 +13,6 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public bool canMove;    
 
-    private enum element
-    {
-        Grass,
-        Fire,
-        Water
-    }
-
     void Start()
     {
         

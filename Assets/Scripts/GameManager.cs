@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     [Header("GameObject References")]
     [SerializeField] private GameObject playerGO;
+    [SerializeField] private GameObject enemyGO;
     [SerializeField] private GameObject playerFlag;
     [SerializeField] private GameObject enemyFlag;
     [SerializeField] private GameObject playerRespawn;
@@ -68,7 +69,9 @@ public class GameManager : MonoBehaviour
     private void RoundSetup()
     {
         //handles activating barriers (enemy)
-        int trappedBar = Random.Range(0, 3);
+        int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        System.Random random = new System.Random(seed);
+        int trappedBar = random.Next(0, 2);
         int currentBar = 0;
         foreach (GameObject obj in redBarriers)
         {
@@ -127,12 +130,12 @@ public class GameManager : MonoBehaviour
         deathCam.SetActive(true);
         deathCanvas.SetActive(true);
 
-        StartCoroutine(PlayerRespawnHelper());        
+        StartCoroutine(PlayerRespawnHelper());
     }
 
     IEnumerator PlayerRespawnHelper()
     { 
-        float remainingRespawn = respawnTimer; // Initialize remaining respawn time
+        float remainingRespawn = respawnTimer;
 
         while (remainingRespawn > 0)
         {
@@ -149,6 +152,36 @@ public class GameManager : MonoBehaviour
         HUDCanvas.SetActive(true);
         deathCam.SetActive(false);
         deathCanvas.SetActive(false);
+    }
+
+    public void RespawnEnemy()
+    {
+        if (enemy.carryingFlag)
+        {
+            enemy.UnequipFlag();
+            SpawnDroppedFlag(enemyGO, redFlagPF);
+        }
+
+        enemyGO.SetActive(false);
+
+        StartCoroutine (EnemyRespawnHelper());
+    }
+
+    IEnumerator EnemyRespawnHelper()
+    {
+        float remainingRespawn = respawnTimer;
+
+        while (remainingRespawn > 0)
+        {
+            enemyRespawnText.text = "Enemy respawns in: " + remainingRespawn.ToString("F1") + "s";
+            remainingRespawn -= Time.deltaTime;
+            yield return null;
+        }
+
+        enemyGO.transform.position = enemyRespawn.transform.position;
+        enemy.healthPoints = 5;
+
+        enemyGO.SetActive(true);        
     }
 
     private void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
