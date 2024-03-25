@@ -7,7 +7,7 @@ public class DroppedFlag : MonoBehaviour
 {
     private GameManager gameManager;
 
-    private bool canPickup;
+    private bool canPickup = false;
     private float cooldown = 5f;
 
     public TMP_Text cooldownText;
@@ -50,6 +50,7 @@ public class DroppedFlag : MonoBehaviour
 
     IEnumerator PickUpCooldown()
     {
-
+        yield return new WaitForSeconds(cooldown);
+        canPickup = true;
     }
 }
