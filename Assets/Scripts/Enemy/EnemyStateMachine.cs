@@ -15,9 +15,16 @@ public class EnemyStateMachine : MonoBehaviour
     [HideInInspector] public CombatWithFlagState CombatWithFlagState = new CombatWithFlagState();
     [HideInInspector] public PickUpFlagState PickUpFlagState = new PickUpFlagState();
 
-    void Awake()
+    void OnEnable()
     {
-        activeState = FindFlagState;
+        if(enemyRefs.gameManager.enemyFlagRetrievable || enemyRefs.gameManager.playerFlagRetrievable)
+        {
+            activeState = PickUpFlagState;
+        }
+        else
+        {
+            activeState = FindFlagState;
+        }
         activeState.EnterState(this);
     }
 

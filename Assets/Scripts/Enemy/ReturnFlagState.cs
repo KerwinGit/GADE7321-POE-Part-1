@@ -6,16 +6,59 @@ public class ReturnFlagState : BaseState
 {
     public override void EnterState(EnemyStateMachine enemy)
     {
-        return;
+        ChoosePath(enemy);
     }
 
     public override void UpdateState(EnemyStateMachine enemy)
     {
-        return;
+        if (enemy.enemyRefs.playerVisible)
+        {
+            enemy.Transition(enemy.CombatWithFlagState);
+        }
+
+        if(enemy.enemyRefs.gameManager.enemyFlagDropped)
+        {
+            enemy.Transition(enemy.CombatState);
+        }
     }
 
     public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)
     {
-        return;
+        if (other.CompareTag("Red Barrier") || other.CompareTag("Blue Barrier"))
+        {
+            ChoosePath(enemy);
+        }
+    }
+
+    private void ChoosePath(EnemyStateMachine enemy)
+    {
+        switch (enemy.enemyRefs.progressRef)
+        {
+            case EnemyRefs.progress.spawnArea:
+                enemy.enemyRefs.agent.destination = enemy.enemyRefs.gameManager.enemyGoal.transform.position;
+                break;
+            case EnemyRefs.progress.centreArea:
+                enemy.enemyRefs.agent.destination = chooseRedBarrier(enemy.enemyRefs).transform.position;
+                break;
+            case EnemyRefs.progress.flagArea:
+                enemy.enemyRefs.agent.destination = chooseBlueBarrier(enemy.enemyRefs).transform.position;
+                break;
+        }
+    }
+
+    private GameObject chooseRedBarrier(EnemyRefs enemy)
+    {
+        int seed = (int)System.DateTime.Now.Ticks;
+        System.Random random = new System.Random(seed);
+
+        return enemy.redBarriers[random.Next(0, 3)];
+    }
+
+    private GameObject chooseBlueBarrier(EnemyRefs enemy)
+    {
+        int seed = (int)System.DateTime.Now.Ticks;
+        System.Random random = new System.Random(seed);
+
+        return enemy.blueBarriers[random.Next(0, 3)];
     }
 }

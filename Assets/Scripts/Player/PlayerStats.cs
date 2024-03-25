@@ -28,6 +28,8 @@ public class PlayerStats : MonoBehaviour
         carryingFlag = true;
         equippedFlag.SetActive(true);     
         gameManager.playerGoal.SetActive(true);
+        gameManager.playerFlagRetrievable = false;
+        gameManager.playerFlagDropped = false;
     }
 
     public void UnequipFlag()

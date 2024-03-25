@@ -11,7 +11,17 @@ public class CombatState : BaseState
 
     public override void UpdateState(EnemyStateMachine enemy)
     {
-        return;
+        if (!enemy.enemyRefs.playerVisible)
+        {
+            if(enemy.enemyRefs.gameManager.enemyFlagDropped || enemy.enemyRefs.gameManager.playerFlagDropped)
+            {
+                enemy.Transition(enemy.PickUpFlagState);
+            }
+            else
+            {
+                enemy.Transition(enemy.FindFlagState);
+            }
+        }
     }
 
     public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)

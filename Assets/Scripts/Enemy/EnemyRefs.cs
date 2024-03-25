@@ -18,7 +18,6 @@ public class EnemyRefs : MonoBehaviour
 
     public GameObject[] redBarriers;
     public GameObject[] blueBarriers;
-    public GameObject safeBarrier;
 
     public enum progress
     {
@@ -29,10 +28,21 @@ public class EnemyRefs : MonoBehaviour
 
     public progress progressRef;
 
+    [Header("FOV")]
+    public float fovRadius;
+    public float angle = 45f;
+
+    public LayerMask playerLayer;
+    public LayerMask environmentLayer;
+
+    public bool playerVisible;
+
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         progressRef = progress.spawnArea;
+        StartCoroutine(EnemyVision());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,7 +60,14 @@ public class EnemyRefs : MonoBehaviour
         }
         if (other.CompareTag("Blue Barrier"))
         {
-            progressRef = progress.flagArea;
+            if (!carryingFlag)
+            {
+                progressRef = progress.flagArea;
+            }
+            else
+            {
+                progressRef = progress.centreArea;
+            }
         }
     }
 
@@ -74,6 +91,8 @@ public class EnemyRefs : MonoBehaviour
         carryingFlag = true;
         equippedFlag.SetActive(true);
         gameManager.enemyGoal.SetActive(true);
+        gameManager.enemyFlagRetrievable = false;
+        gameManager.enemyFlagDropped = false;
     }
 
     public void UnequipFlag()
@@ -82,5 +101,40 @@ public class EnemyRefs : MonoBehaviour
         equippedFlag.SetActive(false);
         gameManager.enemyGoal.SetActive(false);
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.redFlagPF);
+    }
+    private IEnumerator EnemyVision()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+
+        while (true)
+        {
+            yield return wait;
+            CheckPlayerVisibile();
+        }
+    }
+
+    private void CheckPlayerVisibile()
+    {
+        Collider[] checkRadius = Physics.OverlapSphere(transform.position, fovRadius, playerLayer);
+
+        if (checkRadius.Length != 0)
+        {
+            Transform playerTarget = checkRadius[0].transform;
+            Vector3 playerDirection = (playerTarget.position - transform.position).normalized;
+
+            if (Vector3.Angle(transform.forward, playerDirection) < angle / 2)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position, playerTarget.position);
+
+                if (!Physics.Raycast(transform.position, playerDirection, distanceToTarget, environmentLayer))
+                    playerVisible = true;
+                else
+                    playerVisible = false;
+            }
+            else
+                playerVisible = false;
+        }
+        else if (playerVisible)
+            playerVisible = false;
     }
 }

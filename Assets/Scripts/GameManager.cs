@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     private float respawnTimer = 5f;
 
+    public bool enemyFlagDropped;
+    public bool enemyFlagRetrievable;
+    public bool playerFlagDropped;
+    public bool playerFlagRetrievable;
+
+
     [Header("UI")]
     [SerializeField] private GameObject generalCanvas;
     [SerializeField] private GameObject HUDCanvas;
@@ -35,8 +41,8 @@ public class GameManager : MonoBehaviour
     [Header("GameObject References")]
     [SerializeField] private GameObject playerGO;
     [SerializeField] private GameObject enemyGO;
-    [SerializeField] private GameObject playerFlag;
-    [SerializeField] private GameObject enemyFlag;
+    public GameObject playerFlag;
+    public GameObject enemyFlag;
     [SerializeField] private GameObject playerRespawn;
     [SerializeField] private GameObject enemyRespawn;
     public GameObject playerGoal;
@@ -107,6 +113,8 @@ public class GameManager : MonoBehaviour
         player.carryingFlag = false;
         player.equippedFlag.SetActive(false);
         playerFlag.SetActive(true);
+        playerFlagRetrievable = false;
+        playerFlagDropped = false;
 
         playerGO.SetActive(true);
 
@@ -116,11 +124,13 @@ public class GameManager : MonoBehaviour
         enemy.carryingFlag = false;
         enemy.equippedFlag.SetActive(false);
         enemyFlag.SetActive(true);
+        enemyFlagDropped = false;
+        enemyFlagRetrievable = false;
 
         enemyGO.SetActive(true);
 
         //handles activating barriers (enemy)
-        int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        int seed = (int)System.DateTime.Now.Ticks;
         System.Random random = new System.Random(seed);
         int trappedBar = random.Next(0, 3);
 
@@ -179,18 +189,25 @@ public class GameManager : MonoBehaviour
     public void ResetPlayerFlag()
     {
         playerFlag.SetActive(true);
+        playerFlagDropped = false;
+        playerFlagRetrievable = false;
     }
 
     public void ResetEnemyFlag() 
     {
         enemyFlag.SetActive(true);
+        enemyFlagDropped = false;
+        enemyFlagRetrievable = false;
     }
 
+    #region Respawn
     public void RespawnPlayer()
     {
         Vector3 spawnPos = new Vector3(playerGO.transform.position.x, 1, playerGO.transform.position.z);
         Instantiate(explosionPF, spawnPos, playerGO.transform.rotation);
 
+        player.equippedFlag.SetActive(false);
+        player.carryingFlag = false;
         playerGO.SetActive(false);
         thirdPersonCam.SetActive(false);
         HUDCanvas.SetActive(false);
@@ -226,6 +243,8 @@ public class GameManager : MonoBehaviour
         Vector3 spawnPos = new Vector3(enemyGO.transform.position.x, 1, enemyGO.transform.position.z);
         Instantiate(explosionPF, spawnPos, enemyGO.transform.rotation);
 
+        enemy.equippedFlag.SetActive(false);
+        enemy.carryingFlag = false;
         enemyGO.SetActive(false);
         enemyRespawnText.enabled = true;
 
@@ -249,6 +268,7 @@ public class GameManager : MonoBehaviour
         enemyGO.SetActive(true);
         enemyRespawnText.enabled = false;
     }
+    #endregion
 
     public void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
     {
@@ -256,6 +276,7 @@ public class GameManager : MonoBehaviour
         Instantiate(flagPF, spawnPos, entity.transform.rotation);
     }
 
+    #region Trapping
     public void setTrapLeft()
     {
         playerTrap = 0;
@@ -274,6 +295,7 @@ public class GameManager : MonoBehaviour
         preRoundCanvas.SetActive(false);
         startRoundEvent.Invoke();
     }
+    #endregion
 
     private void Win()
     {

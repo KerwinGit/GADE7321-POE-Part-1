@@ -18,6 +18,16 @@ public class DroppedFlag : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         camera = Camera.main;
+
+        if (this.CompareTag("Player Flag"))
+        {
+            gameManager.playerFlagDropped = true;
+        }
+        else if (this.CompareTag("Enemy Flag"))
+        {
+            gameManager.enemyFlagDropped = true;
+        }
+
         StartCoroutine(PickUpCooldown());
     }
 
@@ -71,5 +81,14 @@ public class DroppedFlag : MonoBehaviour
         }
 
         canPickup = true;
+
+        if (this.CompareTag("Player Flag"))
+        {
+            gameManager.playerFlagRetrievable = true;
+        }
+        else if (this.CompareTag("Enemy Flag"))
+        {
+            gameManager.enemyFlagRetrievable = true;
+        }
     }
 }
