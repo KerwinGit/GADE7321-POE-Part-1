@@ -14,12 +14,6 @@ public class CameraController : MonoBehaviour
 
     public float rotationSpeed;
 
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
     private void Update()
     {
         Vector3 overShoulderDir = overShoulderFocus.position - new Vector3(transform.position.x, overShoulderFocus.position.y, transform.position.z);
