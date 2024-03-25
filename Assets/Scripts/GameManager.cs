@@ -103,12 +103,14 @@ public class GameManager : MonoBehaviour
 
     public void PlayerScore()
     {
-        Debug.Log("Goal");
+        playerScore++;
+        scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
     }
 
     public void EnemyScore()
     {
-
+        enemyScore++;
+        scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
     }
 
     public void ResetPlayerFlag()

@@ -10,12 +10,12 @@ public class Goal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(this.CompareTag("Player Goal") && other.CompareTag("Player"))
+        if(this.CompareTag("Player Goal") && other.CompareTag("Player Flag"))
         {
             playerGoalEvent.Invoke();
         }
 
-        if (this.CompareTag("Enemy Goal") && other.CompareTag("Enemy"))
+        if (this.CompareTag("Enemy Goal") && other.CompareTag("Enemy Flag"))
         {
             enemyGoalEvent.Invoke();
         }
