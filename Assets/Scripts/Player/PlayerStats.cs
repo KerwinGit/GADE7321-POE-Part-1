@@ -37,4 +37,19 @@ public class PlayerStats : MonoBehaviour
         gameManager.playerGoal.SetActive(false);
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.blueFlagPF);
     }
+
+    public void TakeDamage()
+    {
+        if (carryingFlag)
+        {
+            UnequipFlag();
+        }
+
+        healthPoints--;
+
+        if (healthPoints <= 0)
+        {
+            gameManager.playerDeath.Invoke();
+        }
+    }
 }
