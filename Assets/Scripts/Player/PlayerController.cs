@@ -137,7 +137,6 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.gameObject.CompareTag("Enemy"))
             {
                 player.gameManager.enemyHurt.Invoke();
-                Debug.Log("Hit");
             }
 
                 laser.SetPosition(1, hit.point);

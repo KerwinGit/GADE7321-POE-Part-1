@@ -124,8 +124,6 @@ public class GameManager : MonoBehaviour
         System.Random random = new System.Random(seed);
         int trappedBar = random.Next(0, 3);
 
-        Debug.Log(trappedBar);
-
         int currentBar = 0;
         foreach (GameObject obj in redBarriers)
         {
@@ -254,7 +252,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
     {
-        Vector3 spawnPos = new Vector3(entity.transform.position.x, 1, entity.transform.position.z);
+        Vector3 spawnPos = new Vector3(entity.transform.position.x, entity.transform.position.y, entity.transform.position.z);
         Instantiate(flagPF, spawnPos, entity.transform.rotation);
     }
 

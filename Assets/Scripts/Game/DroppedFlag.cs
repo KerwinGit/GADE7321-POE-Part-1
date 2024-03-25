@@ -10,12 +10,20 @@ public class DroppedFlag : MonoBehaviour
     private bool canPickup = false;
     private float cooldown = 5f;
 
+    [SerializeField] private GameObject flagCanvas;
+    private Camera camera;
     public TMP_Text cooldownText;
 
     private void OnEnable()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        camera = Camera.main;
         StartCoroutine(PickUpCooldown());
+    }
+
+    private void Update()
+    {
+        flagCanvas.transform.rotation = Quaternion.LookRotation(flagCanvas.transform.position - camera.transform.position);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,7 +60,16 @@ public class DroppedFlag : MonoBehaviour
 
     IEnumerator PickUpCooldown()
     {
-        yield return new WaitForSeconds(cooldown);
+        float remainingCooldown = cooldown;                                                             //cooldown applied and displayed
+        while (remainingCooldown > 0)
+        {
+            cooldownText.text = remainingCooldown.ToString("F1") + "s";
+
+            remainingCooldown -= Time.deltaTime;
+
+            yield return null;
+        }
+
         canPickup = true;
     }
 }
