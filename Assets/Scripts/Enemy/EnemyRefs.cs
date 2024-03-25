@@ -83,6 +83,4 @@ public class EnemyRefs : MonoBehaviour
         gameManager.enemyGoal.SetActive(false);
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.redFlagPF);
     }
-
-
 }

@@ -15,14 +15,18 @@ public class GameManager : MonoBehaviour
     private int playerScore = 0;
     private int enemyScore = 0;
 
+    private int playerTrap;
+
     private float respawnTimer = 5f;
 
     [Header("UI")]
     [SerializeField] private GameObject generalCanvas;
     [SerializeField] private GameObject HUDCanvas;
     [SerializeField] private GameObject deathCanvas;
+    [SerializeField] private GameObject preRoundCanvas;
 
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text scoreText2;
     [SerializeField] private TMP_Text playerHPText;
     [SerializeField] private TMP_Text playerRespawnText;
     public TMP_Text playerDeathText;
@@ -60,7 +64,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         enemyRespawnText.enabled = false;
-        RoundSetup();
+        resetRoundEvent.Invoke();
     }
 
     void Update()
@@ -68,8 +72,53 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void RoundSetup()
+    public void PreRound()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (playerScore<5 && enemyScore<5)
+        {
+            enemyGO.SetActive(false);
+            playerGO.SetActive(false);
+            HUDCanvas.SetActive(false);
+
+            preRoundCanvas.SetActive(true);
+        }
+        else if(playerScore<5)
+        {
+
+        }
+        else if (enemyScore < 5)
+        {
+
+        }
+    }
+
+    public void RoundSetup()
+    {
+        HUDCanvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        //activate player at spawn point
+        playerGO.transform.position = playerRespawn.transform.position;
+        player.healthPoints = 5;
+        player.carryingFlag = false;
+        player.equippedFlag.SetActive(false);
+        playerFlag.SetActive(true);
+
+        playerGO.SetActive(true);
+
+        //activate player at spawn point
+        enemyGO.transform.position = enemyRespawn.transform.position;
+        enemy.healthPoints = 5;
+        enemy.carryingFlag = false;
+        enemy.equippedFlag.SetActive(false);
+        enemyFlag.SetActive(true);
+
+        enemyGO.SetActive(true);
+
         //handles activating barriers (enemy)
         int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         System.Random random = new System.Random(seed);
@@ -95,9 +144,21 @@ public class GameManager : MonoBehaviour
         }
 
         //handles activating barriers (player)
+        currentBar = 0;
         foreach (GameObject obj in blueBarriers)
         {
             obj.SetActive(true);
+
+            if (currentBar == playerTrap)
+            {
+                blueBarriers[currentBar].GetComponent<Barrier>().trapped = true;
+            }
+            else
+            {
+                blueBarriers[currentBar].GetComponent<Barrier>().trapped = false;
+            }
+
+            currentBar++;
         }
     }
 
@@ -105,12 +166,16 @@ public class GameManager : MonoBehaviour
     {
         playerScore++;
         scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
+        scoreText2.text = $"Blue {playerScore} - {enemyScore} Red";
+        resetRoundEvent.Invoke();
     }
 
     public void EnemyScore()
     {
         enemyScore++;
         scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
+        scoreText2.text = $"Blue {playerScore} - {enemyScore} Red";
+        resetRoundEvent.Invoke();
     }
 
     public void ResetPlayerFlag()
@@ -191,5 +256,34 @@ public class GameManager : MonoBehaviour
     {
         Vector3 spawnPos = new Vector3(entity.transform.position.x, 1, entity.transform.position.z);
         Instantiate(flagPF, spawnPos, entity.transform.rotation);
+    }
+
+    public void setTrapLeft()
+    {
+        playerTrap = 0;
+        preRoundCanvas.SetActive(false);
+        startRoundEvent.Invoke();
+    }
+    public void setTrapMiddle()
+    {
+        playerTrap = 1;
+        preRoundCanvas.SetActive(false);
+        startRoundEvent.Invoke();
+    }
+    public void setTrapRight()
+    {
+        playerTrap = 2;
+        preRoundCanvas.SetActive(false);
+        startRoundEvent.Invoke();
+    }
+
+    private void Win()
+    {
+
+    }
+
+    private void Lose()
+    {
+
     }
 }
