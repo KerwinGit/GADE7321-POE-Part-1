@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] PlayerStats player;
+
     [Header("Keybinds")]
     public KeyCode jumpKeybind = KeyCode.Space;
 
@@ -132,7 +134,13 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, playerCam.transform.forward, out hit, range))
         {
-            laser.SetPosition(1, hit.point);
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                player.gameManager.enemyHurt.Invoke();
+                Debug.Log("Hit");
+            }
+
+                laser.SetPosition(1, hit.point);
         }
         else
         {

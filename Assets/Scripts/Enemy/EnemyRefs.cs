@@ -54,6 +54,21 @@ public class EnemyRefs : MonoBehaviour
         }
     }
 
+    public void TakeDamage()
+    {
+        if(carryingFlag)
+        {
+            UnequipFlag();
+        }
+
+        healthPoints--;
+
+        if(healthPoints <= 0)
+        {
+            gameManager.enemyDeath.Invoke();
+        }
+    }
+
     public void EquipFlag()
     {
         carryingFlag = true;
@@ -66,6 +81,7 @@ public class EnemyRefs : MonoBehaviour
         carryingFlag = false;
         equippedFlag.SetActive(false);
         gameManager.enemyGoal.SetActive(false);
+        gameManager.SpawnDroppedFlag(this.gameObject, gameManager.redFlagPF);
     }
 
 

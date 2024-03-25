@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject enemyGoal;
     [SerializeField] private GameObject[] redBarriers;
     [SerializeField] private GameObject[] blueBarriers;
-    [SerializeField] private GameObject blueFlagPF;
-    [SerializeField] private GameObject redFlagPF;
+    public GameObject blueFlagPF;
+    public GameObject redFlagPF;
     [SerializeField] private GameObject explosionPF;
 
     [Header("Camera References")]
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        enemyRespawnText.enabled = false;
         RoundSetup();
     }
 
@@ -71,7 +73,10 @@ public class GameManager : MonoBehaviour
         //handles activating barriers (enemy)
         int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         System.Random random = new System.Random(seed);
-        int trappedBar = random.Next(0, 2);
+        int trappedBar = random.Next(0, 3);
+
+        Debug.Log(trappedBar);
+
         int currentBar = 0;
         foreach (GameObject obj in redBarriers)
         {
@@ -79,11 +84,11 @@ public class GameManager : MonoBehaviour
 
             if (currentBar == trappedBar)
             {
-                redBarriers[trappedBar].GetComponent<Barrier>().trapped = false;
+                redBarriers[currentBar].GetComponent<Barrier>().trapped = true;
             }
             else
             {
-                redBarriers[trappedBar].GetComponent<Barrier>().trapped = true;
+                redBarriers[currentBar].GetComponent<Barrier>().trapped = false;
             }
 
             currentBar++;
@@ -118,11 +123,8 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        if(player.carryingFlag) 
-        {
-            player.UnequipFlag();
-            SpawnDroppedFlag(playerGO, blueFlagPF);
-        }
+        Vector3 spawnPos = new Vector3(playerGO.transform.position.x, 1, playerGO.transform.position.z);
+        Instantiate(explosionPF, spawnPos, playerGO.transform.rotation);
 
         playerGO.SetActive(false);
         thirdPersonCam.SetActive(false);
@@ -156,13 +158,11 @@ public class GameManager : MonoBehaviour
 
     public void RespawnEnemy()
     {
-        if (enemy.carryingFlag)
-        {
-            enemy.UnequipFlag();
-            SpawnDroppedFlag(enemyGO, redFlagPF);
-        }
+        Vector3 spawnPos = new Vector3(enemyGO.transform.position.x, 1, enemyGO.transform.position.z);
+        Instantiate(explosionPF, spawnPos, enemyGO.transform.rotation);
 
         enemyGO.SetActive(false);
+        enemyRespawnText.enabled = true;
 
         StartCoroutine (EnemyRespawnHelper());
     }
@@ -181,13 +181,13 @@ public class GameManager : MonoBehaviour
         enemyGO.transform.position = enemyRespawn.transform.position;
         enemy.healthPoints = 5;
 
-        enemyGO.SetActive(true);        
+        enemyGO.SetActive(true);
+        enemyRespawnText.enabled = false;
     }
 
-    private void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
+    public void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
     {
         Vector3 spawnPos = new Vector3(entity.transform.position.x, 1, entity.transform.position.z);
-        Instantiate(explosionPF, spawnPos, entity.transform.rotation);
         Instantiate(flagPF, spawnPos, entity.transform.rotation);
     }
 }

@@ -35,5 +35,6 @@ public class PlayerStats : MonoBehaviour
         carryingFlag = false;
         equippedFlag.SetActive(false);
         gameManager.playerGoal.SetActive(false);
+        gameManager.SpawnDroppedFlag(this.gameObject, gameManager.blueFlagPF);
     }
 }
