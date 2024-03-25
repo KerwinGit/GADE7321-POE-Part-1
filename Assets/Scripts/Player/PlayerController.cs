@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -27,10 +28,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform shootOrigin;
     private float range = 100f;
     private float laserTime = 0.05f;
+    public bool canShoot = true;
+    private float cooldownTime = 1f;
 
     [Header("References")]
     public Transform facing;
     [SerializeField] private LineRenderer laser;
+    [SerializeField] private TMP_Text cooldownText;
 
     private float horizontalInput;
     private float verticalInput;
@@ -39,19 +43,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Rigidbody rb;
 
-    private void Start()
-    {
-        rb.freezeRotation = true;
-    }
-
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, height * 0.5f +0.2f, groundLayer);
+        grounded = Physics.Raycast(transform.position, Vector3.down, height * 0.5f +0.2f, groundLayer);     //checks if player is grounded for jumping
 
-        PlayerInputs();
+        PlayerInputs();                                                                                     //handles controls
         SpeedLimiter();
 
-        if(grounded)
+        if(grounded)                                                                                        //applies friction to running
         {
             rb.drag = groundDrag;
         }
@@ -63,15 +62,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
+        Movement();                                                                                         //movement physics
     }
 
     private void PlayerInputs()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = Input.GetAxisRaw("Horizontal");                                                   //A/D left/right
+        verticalInput = Input.GetAxisRaw("Vertical");                                                       //W/S forward/back
 
-        if(Input.GetKey(jumpKeybind) && canJump && grounded)
+        if(Input.GetKey(jumpKeybind) && canJump && grounded)                                                //jumping
         {
             canJump = false;
 
@@ -80,32 +79,14 @@ public class PlayerController : MonoBehaviour
             Invoke(nameof(SetCanJump), jumpCooldown);
         }
 
-        if(Input.GetButtonDown("Fire1"))
-        {
-            laser.SetPosition(0, shootOrigin.position);
-            Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1f));
-            RaycastHit hit;
-
-            if (Physics.Raycast(rayOrigin, playerCam.transform.forward, out hit, range))
-            {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("IgnoreRaycast"))
-                {
-                    return;
-                }
-
-                laser.SetPosition(1, hit.point);
-            }
-            else
-            {
-                laser.SetPosition(1, rayOrigin + (playerCam.transform.forward * range));
-            }
+        if(Input.GetButtonDown("Fire1") && canShoot)                                                                    //shooting laser
+        {            
             StartCoroutine(Shoot());
         }
     }
 
-    private void Movement()
+    private void Movement()                                                                                 //movement physics
     {
-        // calculate movement direction
         movementDirection = facing.forward * verticalInput + facing.right * horizontalInput;
 
         if(grounded)
@@ -118,7 +99,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SpeedLimiter()
+    private void SpeedLimiter()                                                                             //limits XZ axis movement to not exceed specified amount
     {
         Vector3 XZVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
@@ -129,25 +110,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void Jump()                                                                                     //jumping physics
     {
         //reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-        //rb.AddForce(Vector3.down * 200f, ForceMode.Force);
     }
 
-    private void SetCanJump()
+    private void SetCanJump()                                                                               //helper method for jumping
     {
         canJump = true;
     }
 
-    IEnumerator Shoot()
+    IEnumerator Shoot()                                                                                    //shooting logic handled
     {
+        canShoot = false;
+        laser.SetPosition(0, shootOrigin.position);
+        Vector3 rayOrigin = playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1f));
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayOrigin, playerCam.transform.forward, out hit, range))
+        {
+            laser.SetPosition(1, hit.point);
+        }
+        else
+        {
+            laser.SetPosition(1, rayOrigin + (playerCam.transform.forward * range));
+        }
+
+        //display laser visual
         laser.enabled = true;
         yield return new WaitForSeconds(laserTime);
         laser.enabled = false;
+
+        float remainingCooldown = cooldownTime;                                                             //cooldown applied and displayed
+        while (remainingCooldown > 0)
+        {
+            cooldownText.text = "Laser: " + remainingCooldown.ToString("F1") + "s";
+
+            remainingCooldown -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        cooldownText.text = "Laser: Ready";        
+        canShoot = true;        
     }
 }
