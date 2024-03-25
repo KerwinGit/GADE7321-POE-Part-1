@@ -19,6 +19,7 @@ public class BasedFlag : MonoBehaviour
         if(this.CompareTag("Enemy Flag") && other.CompareTag("Enemy"))
         {
             enemyFlagCaptureEvent.Invoke();
+            this.gameObject.SetActive(false);
         }
     }
 }

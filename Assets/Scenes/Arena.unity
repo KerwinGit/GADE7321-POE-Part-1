@@ -158,7 +158,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3362131
 MonoBehaviour:
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0-0
+  m_text: Blue 0-0 Red
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -194,9 +194,9 @@ MonoBehaviour:
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
-    topLeft: {r: 0, g: 0.022976398, b: 1, a: 1}
-    topRight: {r: 0, g: 0.022976398, b: 1, a: 1}
-    bottomLeft: {r: 0, g: 0.022976398, b: 1, a: 1}
+    topLeft: {r: 1, g: 0, b: 0.22532368, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 0, g: 0.022976398, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
@@ -761,6 +761,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132755769}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &159566899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+  m_PrefabInstance: {fileID: 1683606620}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &204016166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+  m_PrefabInstance: {fileID: 2026323770}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &218666669 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+  m_PrefabInstance: {fileID: 906987264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &238789338
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +1007,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &317988971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+  m_PrefabInstance: {fileID: 2746175475748000161}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &355411164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,6 +1458,7 @@ MonoBehaviour:
     m_Bits: 64
   playerCam: {fileID: 1749338412}
   shootOrigin: {fileID: 1544426009}
+  canShoot: 1
   facing: {fileID: 962292460}
   laser: {fileID: 1544426010}
   cooldownText: {fileID: 40589822}
@@ -1466,6 +1487,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 51881996}
     m_Modifications:
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 164021514616874242, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1513,6 +1546,10 @@ PrefabInstance:
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_TagString
@@ -1710,6 +1747,7 @@ GameObject:
   - component: {fileID: 673121942}
   - component: {fileID: 673121946}
   - component: {fileID: 673121947}
+  - component: {fileID: 673121948}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1859,6 +1897,31 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &673121948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673121941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dd6228c587d95408ce4896076ec05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  healthPoints: 5
+  carryingFlag: 0
+  equippedFlag: {fileID: 0}
+  canMove: 0
+  redBarriers: []
+  blueBarriers: []
+  progressRef: 0
+--- !u!1 &737461810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+  m_PrefabInstance: {fileID: 6412417981847773216}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &833124434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,6 +2198,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1735814521}
     m_Modifications:
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 164021514616874242, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2182,6 +2257,10 @@ PrefabInstance:
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_TagString
@@ -2744,6 +2823,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1236585863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+  m_PrefabInstance: {fileID: 566117408}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1464271825
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,9 +3461,25 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_TagString
       value: Red Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 8604220130132113010, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3652,10 +3752,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e280091dcd37aa64c9689799c4949dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerController: {fileID: 0}
-  enemy: {fileID: 0}
+  player: {fileID: 527278843}
+  playerController: {fileID: 527278842}
+  enemy: {fileID: 673121948}
+  scoreText: {fileID: 3362131}
+  playerHPText: {fileID: 132116972}
+  enemyHPText: {fileID: 0}
+  playerFlag: {fileID: 8203975691674661669}
+  enemyFlag: {fileID: 7849023769103262548}
+  playerGoal: {fileID: 436762208}
+  enemyGoal: {fileID: 1118666868}
+  redBarriers:
+  - {fileID: 737461810}
+  - {fileID: 159566899}
+  - {fileID: 204016166}
+  blueBarriers:
+  - {fileID: 317988971}
+  - {fileID: 218666669}
+  - {fileID: 1236585863}
   startRoundEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerHurt:
     m_PersistentCalls:
       m_Calls: []
   playerDeath:
@@ -3664,13 +3782,6 @@ MonoBehaviour:
   enemyDeath:
     m_PersistentCalls:
       m_Calls: []
-  scoreText: {fileID: 3362131}
-  playerHPText: {fileID: 0}
-  enemyHPText: {fileID: 0}
-  playerFlag: {fileID: 0}
-  enemyFlag: {fileID: 0}
-  playerGoal: {fileID: 436762208}
-  enemyGoal: {fileID: 0}
 --- !u!1 &1771380527
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,9 +4226,25 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_TagString
       value: Red Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 8604220130132113010, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9349,6 +9476,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 872955455}
     m_Modifications:
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: -3348660960272024396, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 164021514616874242, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9396,6 +9535,10 @@ PrefabInstance:
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3698115176187266146, guid: 8b09f7561d7edd541aec0320c026a6b0, type: 3}
       propertyPath: m_TagString
@@ -14431,9 +14574,25 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857384918609517621, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_TagString
       value: Red Barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: Manager
+      value: 
+      objectReference: {fileID: 1763630258}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: enemyRefs
+      value: 
+      objectReference: {fileID: 673121948}
+    - target: {fileID: 7682243265131629198, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 527278843}
     - target: {fileID: 8604220130132113010, guid: 7031096d81358ab41b1ceb7d1e6283a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

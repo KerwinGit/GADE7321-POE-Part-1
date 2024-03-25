@@ -9,6 +9,8 @@ TagManager:
   - Player Flag
   - Player Goal
   - Enemy Goal
+  - Blue Barrier
+  - Red Barrier
   layers:
   - Default
   - TransparentFX

@@ -4925,6 +4925,7 @@ GameObject:
   - component: {fileID: 955079713637247050}
   - component: {fileID: 3457257410673970374}
   - component: {fileID: 3563520625823383740}
+  - component: {fileID: 1474262492925304255}
   m_Layer: 0
   m_Name: red flag drop
   m_TagString: Enemy Flag
@@ -5020,3 +5021,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1474262492925304255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919636262024960648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d5b5b771bd95f04d8671c73dde86bc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
