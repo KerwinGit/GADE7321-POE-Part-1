@@ -44,6 +44,7 @@ public class PlayerStats : MonoBehaviour
 
         if (healthPoints <= 0)
         {
+            gameManager.playerDeathText.text = "Died To: Enemy Laser";
             gameManager.playerDeath.Invoke();
         }
     }
