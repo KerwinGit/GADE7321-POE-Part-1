@@ -32,11 +32,12 @@ public class PlayerController : MonoBehaviour
     private float laserTime = 0.05f;
     public bool canShoot = true;
     private float cooldownTime = 1f;
+    public float remainingCooldown;
 
     [Header("References")]
     public Transform facing;
     [SerializeField] private LineRenderer laser;
-    [SerializeField] private TMP_Text cooldownText;
+    public TMP_Text cooldownText;
 
     private float horizontalInput;
     private float verticalInput;

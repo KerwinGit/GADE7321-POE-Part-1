@@ -36,10 +36,12 @@ public class DroppedFlag : MonoBehaviour
                 if (other.CompareTag("Player"))
                 {
                     gameManager.player.EquipFlag();
+                    Destroy(gameObject);
                 }
                 else if (other.CompareTag("Enemy"))
                 {
                     gameManager.ResetPlayerFlag();
+                    Destroy(gameObject);
                 }
             }
 
@@ -48,13 +50,15 @@ public class DroppedFlag : MonoBehaviour
                 if(other.CompareTag("Player"))
                 {
                     gameManager.ResetEnemyFlag();
+                    Destroy(gameObject);
                 }
                 else if(other.CompareTag("Enemy"))
                 {
                     gameManager.enemy.EquipFlag();
+                    Destroy(gameObject);
                 }
             }
-            Destroy(gameObject);
+
         }
     }
 

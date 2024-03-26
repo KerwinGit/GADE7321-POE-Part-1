@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public bool canMove;
 
-    public void EquipFlag()
+    public void EquipFlag()                                                     //equips flag if picked up from base or dropped flag
     {
         carryingFlag = true;
         equippedFlag.SetActive(true);     

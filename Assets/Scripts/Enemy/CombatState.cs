@@ -77,7 +77,7 @@ public class CombatState : BaseState
 
     public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)
     {
-        return;
+
     }
 
     private Vector3 SetRandomDestination(EnemyStateMachine enemy)

@@ -85,6 +85,8 @@ public class GameManager : MonoBehaviour
 
         if (playerScore<5 && enemyScore<5)
         {
+            deathCam.SetActive(false);
+            deathCanvas.SetActive(false);
             enemyGO.SetActive(false);
             playerGO.SetActive(false);
             HUDCanvas.SetActive(false);
@@ -110,12 +112,16 @@ public class GameManager : MonoBehaviour
         //activate player at spawn point
         playerGO.transform.position = playerRespawn.transform.position;
         player.healthPoints = 5;
+        playerHPText.text = "HP: 5";
         player.carryingFlag = false;
         player.equippedFlag.SetActive(false);
         playerFlag.SetActive(true);
         playerFlagRetrievable = false;
         playerFlagDropped = false;
         playerGoal.SetActive(false);
+        playerController.remainingCooldown = 0;
+        playerController.canShoot = true;
+        playerController.cooldownText.text = "Laser: Ready";
 
         playerGO.SetActive(true);
 
@@ -232,12 +238,16 @@ public class GameManager : MonoBehaviour
 
         playerGO.transform.position = playerRespawn.transform.position;
         player.healthPoints = 5;
+        playerHPText.text = "HP: 5";
 
         playerGO.SetActive(true);
         thirdPersonCam.SetActive(true);
         HUDCanvas.SetActive(true);
         deathCam.SetActive(false);
         deathCanvas.SetActive(false);
+        playerController.remainingCooldown = 0;
+        playerController.canShoot = true;
+        playerController.cooldownText.text = "Laser: Ready";
     }
 
     public void RespawnEnemy()
@@ -275,7 +285,7 @@ public class GameManager : MonoBehaviour
     public void SpawnDroppedFlag(GameObject entity, GameObject flagPF)
     {
         Vector3 spawnPos = new Vector3(entity.transform.position.x, entity.transform.position.y, entity.transform.position.z);
-        Instantiate(flagPF, spawnPos, entity.transform.rotation);
+        Instantiate(flagPF, spawnPos, Quaternion.identity);
     }
 
     #region Trapping
