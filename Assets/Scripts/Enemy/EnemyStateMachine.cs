@@ -17,7 +17,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void OnEnable()
     {
-        if(enemyRefs.gameManager.enemyFlagRetrievable || enemyRefs.gameManager.playerFlagRetrievable)
+        if(enemyRefs.gameManager.enemyFlagDropped || enemyRefs.gameManager.playerFlagDropped)
         {
             activeState = PickUpFlagState;
         }
@@ -26,6 +26,7 @@ public class EnemyStateMachine : MonoBehaviour
             activeState = FindFlagState;
         }
         activeState.EnterState(this);
+        Debug.Log(activeState);
     }
 
     void Update()

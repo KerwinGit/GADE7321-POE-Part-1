@@ -18,6 +18,10 @@ public class Barrier : MonoBehaviour
             {
                 gameManager.playerDeathText.text = "Died To: Trapped Barrier";
                 gameManager.playerDeath.Invoke();
+                if (gameManager.player.carryingFlag)
+                {
+                    other.GetComponent<PlayerStats>().UnequipFlag();
+                }
             }                
             this.gameObject.SetActive(false);
         }
@@ -27,6 +31,10 @@ public class Barrier : MonoBehaviour
             if(trapped == true)
             {
                 gameManager.enemyDeath.Invoke();
+                if (gameManager.enemy.carryingFlag)
+                {
+                    other.GetComponent<EnemyRefs>().UnequipFlag();
+                }
             }
             this.gameObject.SetActive(false);
         }

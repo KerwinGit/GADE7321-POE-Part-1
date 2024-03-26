@@ -20,6 +20,11 @@ public class ReturnFlagState : BaseState
         {
             enemy.Transition(enemy.CombatState);
         }
+
+        if (enemy.enemyRefs.gameManager.playerFlagDropped)
+        {
+            enemy.Transition(enemy.PickUpFlagState);
+        }
     }
 
     public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)

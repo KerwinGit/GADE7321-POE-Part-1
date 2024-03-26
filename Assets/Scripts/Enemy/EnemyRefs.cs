@@ -13,6 +13,9 @@ public class EnemyRefs : MonoBehaviour
 
     [HideInInspector] public bool carryingFlag;
     public GameObject equippedFlag;
+    public Transform shootOrigin;
+    public LineRenderer laser;
+
 
     [HideInInspector] public bool canMove;
 
@@ -41,7 +44,11 @@ public class EnemyRefs : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        progressRef = progress.spawnArea;
+        progressRef = progress.spawnArea;        
+    }
+
+    private void OnEnable()
+    {
         StartCoroutine(EnemyVision());
     }
 
@@ -101,6 +108,7 @@ public class EnemyRefs : MonoBehaviour
         equippedFlag.SetActive(false);
         gameManager.enemyGoal.SetActive(false);
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.redFlagPF);
+        gameManager.enemyFlagDropped = true;
     }
     private IEnumerator EnemyVision()
     {

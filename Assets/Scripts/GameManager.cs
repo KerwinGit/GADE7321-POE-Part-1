@@ -33,13 +33,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text scoreText2;
-    [SerializeField] private TMP_Text playerHPText;
+    public TMP_Text playerHPText;
     [SerializeField] private TMP_Text playerRespawnText;
     public TMP_Text playerDeathText;
     [SerializeField] private TMP_Text enemyRespawnText;
 
     [Header("GameObject References")]
-    [SerializeField] private GameObject playerGO;
+    public GameObject playerGO;
     [SerializeField] private GameObject enemyGO;
     public GameObject playerFlag;
     public GameObject enemyFlag;
@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
         playerFlag.SetActive(true);
         playerFlagRetrievable = false;
         playerFlagDropped = false;
+        playerGoal.SetActive(false);
 
         playerGO.SetActive(true);
 
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour
         enemyFlag.SetActive(true);
         enemyFlagDropped = false;
         enemyFlagRetrievable = false;
+        enemyGoal.SetActive(false);
 
         enemyGO.SetActive(true);
 

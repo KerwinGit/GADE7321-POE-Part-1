@@ -19,15 +19,6 @@ public class DroppedFlag : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         camera = Camera.main;
 
-        if (this.CompareTag("Player Flag"))
-        {
-            gameManager.playerFlagDropped = true;
-        }
-        else if (this.CompareTag("Enemy Flag"))
-        {
-            gameManager.enemyFlagDropped = true;
-        }
-
         StartCoroutine(PickUpCooldown());
     }
 
@@ -50,7 +41,6 @@ public class DroppedFlag : MonoBehaviour
                 {
                     gameManager.ResetPlayerFlag();
                 }
-                Destroy(gameObject);
             }
 
             if (this.CompareTag("Enemy Flag"))
@@ -63,8 +53,8 @@ public class DroppedFlag : MonoBehaviour
                 {
                     gameManager.enemy.EquipFlag();
                 }
-                Destroy(gameObject);
             }
+            Destroy(gameObject);
         }
     }
 

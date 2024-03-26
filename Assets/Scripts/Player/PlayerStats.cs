@@ -11,17 +11,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public bool carryingFlag;
     public GameObject equippedFlag;
 
-    [HideInInspector] public bool canMove;    
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    [HideInInspector] public bool canMove;
 
     public void EquipFlag()
     {
@@ -38,6 +28,7 @@ public class PlayerStats : MonoBehaviour
         equippedFlag.SetActive(false);
         gameManager.playerGoal.SetActive(false);
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.blueFlagPF);
+        gameManager.playerFlagDropped = true;
     }
 
     public void TakeDamage()
@@ -48,6 +39,8 @@ public class PlayerStats : MonoBehaviour
         }
 
         healthPoints--;
+
+        gameManager.playerHPText.text = "HP: " + healthPoints;
 
         if (healthPoints <= 0)
         {
