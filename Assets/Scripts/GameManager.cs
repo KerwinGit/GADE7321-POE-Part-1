@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject HUDCanvas;
     [SerializeField] private GameObject deathCanvas;
     [SerializeField] private GameObject preRoundCanvas;
+    [SerializeField] private GameObject startCanvas;
 
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text scoreText2;
@@ -73,9 +74,9 @@ public class GameManager : MonoBehaviour
         resetRoundEvent.Invoke();
     }
 
-    void Update()
+    public void HideStartCanvas()
     {
-        
+        startCanvas.SetActive(false);
     }
 
     public void PreRound()
