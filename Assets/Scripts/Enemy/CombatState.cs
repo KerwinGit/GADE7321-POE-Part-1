@@ -38,7 +38,7 @@ public class CombatState : BaseState        //this state is used when the AI has
             {
                 enemy.Transition(enemy.PickUpFlagState);
             }
-            else                                                                                                //if flags not dropped, transition to return flag
+            else                                                                                                //if flags not dropped, transition to find flag
             {
                 enemy.Transition(enemy.FindFlagState);
             }

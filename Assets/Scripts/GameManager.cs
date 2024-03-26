@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        startCanvas.SetActive(true);
         enemyRespawnText.enabled = false;
         resetRoundEvent.Invoke();
     }
