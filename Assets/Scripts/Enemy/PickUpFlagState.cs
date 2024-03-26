@@ -7,9 +7,7 @@ public class PickUpFlagState : BaseState
 {
     private GameObject playerFlag;
     private GameObject enemyFlag;
-    float searchCooldown = 0;
     private float strafeRadius = 10f;
-
 
     public override void EnterState(EnemyStateMachine enemy)
     {
@@ -79,16 +77,6 @@ public class PickUpFlagState : BaseState
             enemy.enemyRefs.agent.destination = enemyFlag.transform.position;
         }
     }
-
-    //private void WaitToSearch(EnemyStateMachine enemy)
-    //{
-    //    searchCooldown += Time.deltaTime;
-
-    //    if (searchCooldown >= 1f)
-    //    {
-    //        FindDroppedFlags(enemy);
-    //    }
-    //}
 
     private Vector3 SetRandomDestination(EnemyStateMachine enemy)
     {
