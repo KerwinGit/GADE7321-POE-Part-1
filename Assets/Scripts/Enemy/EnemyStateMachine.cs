@@ -15,6 +15,7 @@ public class EnemyStateMachine : MonoBehaviour
     [HideInInspector] public CombatWithFlagState CombatWithFlagState = new CombatWithFlagState();
     [HideInInspector] public PickUpFlagState PickUpFlagState = new PickUpFlagState();
 
+    //defaults to pick up state if flag is dropped when spawned or find flag if the flag is in the player base
     void OnEnable()
     {
         if(enemyRefs.gameManager.enemyFlagDropped || enemyRefs.gameManager.playerFlagDropped)

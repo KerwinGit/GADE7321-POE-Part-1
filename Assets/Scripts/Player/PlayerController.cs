@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region fields
     [SerializeField] PlayerStats player;
 
     [Header("Keybinds")]
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movementDirection;
 
     [SerializeField] private Rigidbody rb;
+
+    #endregion
 
     private void Update()
     {

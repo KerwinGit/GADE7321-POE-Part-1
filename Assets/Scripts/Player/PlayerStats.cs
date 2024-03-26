@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector] public bool canMove;
 
-    public void EquipFlag()                                                     //equips flag if picked up from base or dropped flag
+    public void EquipFlag()                                                         //equips flag if picked up from base or dropped flag
     {
         carryingFlag = true;
         equippedFlag.SetActive(true);     
@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
         gameManager.playerFlagDropped = false;
     }
 
-    public void UnequipFlag()
+    public void UnequipFlag()                                                       //drops flag
     {
         carryingFlag = false;
         equippedFlag.SetActive(false);

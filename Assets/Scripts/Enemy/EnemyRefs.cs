@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyRefs : MonoBehaviour
 {
+    #region fields
     public GameManager gameManager;
 
     public NavMeshAgent agent;
@@ -31,15 +32,15 @@ public class EnemyRefs : MonoBehaviour
 
     public progress progressRef;
 
-    [Header("FOV")]
-    public float fovRadius;
-    public float angle = 45f;
+    [Header("Vision")]
+    public float visionRadius;
+    public float angle;
 
     public LayerMask playerLayer;
     public LayerMask environmentLayer;
 
     public bool playerVisible;
-
+    #endregion
 
     private void Awake()
     {
@@ -52,7 +53,7 @@ public class EnemyRefs : MonoBehaviour
         StartCoroutine(EnemyVision());
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)     //depending on whether the enemy is carrying a flag or not, their progress is tracked using an enum which updates when passing certain checkpoints (barriers)
     {
         if(other.CompareTag("Red Barrier"))
         {
@@ -93,7 +94,7 @@ public class EnemyRefs : MonoBehaviour
         }
     }
 
-    public void EquipFlag()
+    public void EquipFlag()                                                         //equips flag
     {
         carryingFlag = true;
         equippedFlag.SetActive(true);
@@ -102,7 +103,7 @@ public class EnemyRefs : MonoBehaviour
         gameManager.enemyFlagDropped = false;
     }
 
-    public void UnequipFlag()
+    public void UnequipFlag()                                                       //drops flag when hurt or dies
     {
         carryingFlag = false;
         equippedFlag.SetActive(false);
@@ -110,9 +111,12 @@ public class EnemyRefs : MonoBehaviour
         gameManager.SpawnDroppedFlag(this.gameObject, gameManager.redFlagPF);
         gameManager.enemyFlagDropped = true;
     }
-    private IEnumerator EnemyVision()
+
+    //the following code snippet was adapted from https://github.com/Comp3interactive/FieldOfView/blob/main/FieldOfView.cs (full reference in -> Assets/Scripts/References.txt)
+    #region vision
+    private IEnumerator EnemyVision()                                                                           //delay between updating player vision (allows for delay in transitioning out of combat states)
     {
-        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        WaitForSeconds wait = new WaitForSeconds(1f);
 
         while (true)
         {
@@ -123,26 +127,27 @@ public class EnemyRefs : MonoBehaviour
 
     private void CheckPlayerVisibile()
     {
-        Collider[] checkRadius = Physics.OverlapSphere(transform.position, fovRadius, playerLayer);
+        Collider[] checkRadius = Physics.OverlapSphere(transform.position, visionRadius, playerLayer);          //creates an array of colliders (player only) that are in vision range
 
-        if (checkRadius.Length != 0)
+        if (checkRadius.Length != 0)                                                                            //if a player was found the array contains an element
         {
             Transform playerTarget = checkRadius[0].transform;
-            Vector3 playerDirection = (playerTarget.position - transform.position).normalized;
+            Vector3 playerDirection = (playerTarget.position - transform.position).normalized;                  //determines direction to player from enemy
 
             if (Vector3.Angle(transform.forward, playerDirection) < angle / 2)
             {
-                float distanceToTarget = Vector3.Distance(transform.position, playerTarget.position);
+                float distance = Vector3.Distance(transform.position, playerTarget.position);                   //determines distance to player from enemy
 
-                if (!Physics.Raycast(transform.position, playerDirection, distanceToTarget, environmentLayer))
-                    playerVisible = true;
+                if (!Physics.Raycast(transform.position, playerDirection, distance, environmentLayer))
+                    playerVisible = true;                                                                       //if there is no environment in front of the player from the enemy, the player is visible
                 else
-                    playerVisible = false;
+                    playerVisible = false;                                                                      //if there is environment in front of the player from the enemy, the player is not visible
             }
             else
-                playerVisible = false;
+                playerVisible = false;                                                                          //if the player is not blocked by environment and in range, but not within enemy's FOV angle, they are not visible
         }
         else if (playerVisible)
-            playerVisible = false;
+            playerVisible = false;                                                                              //if the player is not within the vision range, they are not visible
     }
+    #endregion
 }

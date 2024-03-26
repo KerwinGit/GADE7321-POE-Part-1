@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
+    #region fields
     public PlayerStats player;
     public PlayerController playerController;
     public EnemyRefs enemy;
@@ -31,9 +34,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject deathCanvas;
     [SerializeField] private GameObject preRoundCanvas;
     [SerializeField] private GameObject startCanvas;
+    [SerializeField] private GameObject endCanvas;
 
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text scoreText2;
+    [SerializeField] private TMP_Text goalText;
+    [SerializeField] private TMP_Text endText;
     public TMP_Text playerHPText;
     [SerializeField] private TMP_Text playerRespawnText;
     public TMP_Text playerDeathText;
@@ -67,6 +73,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent enemyDeath;
     public UnityEvent winEvent;
     public UnityEvent loseEvent;
+    #endregion
 
     void Start()
     {
@@ -79,12 +86,13 @@ public class GameManager : MonoBehaviour
         startCanvas.SetActive(false);
     }
 
+    //handles UI before round starts
     public void PreRound()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (playerScore<5 && enemyScore<5)
+        if (playerScore < 5 && enemyScore < 5)
         {
             deathCam.SetActive(false);
             deathCanvas.SetActive(false);
@@ -94,21 +102,35 @@ public class GameManager : MonoBehaviour
 
             preRoundCanvas.SetActive(true);
         }
-        else if(playerScore<5)
+        else if(playerScore >= 5)
         {
-
+            Win();
         }
-        else if (enemyScore < 5)
+        else if (enemyScore >= 5)
         {
-
+            Lose();
         }
     }
 
+    //sets up the scene for the round
     public void RoundSetup()
     {
         HUDCanvas.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible = false;        
+
+        if(playerFlagDropped)
+        {
+            playerFlag.SetActive(false);
+            GameObject droppedPlayerFlag = GameObject.FindWithTag("Player Flag");
+            Destroy(droppedPlayerFlag);
+        }
+        if (enemyFlagDropped)
+        {
+            enemyFlag.SetActive(false);
+            GameObject droppedEnemyFlag = GameObject.FindWithTag("Enemy Flag");
+            Destroy(droppedEnemyFlag);
+        }
 
         //activate player at spawn point
         playerGO.transform.position = playerRespawn.transform.position;
@@ -184,6 +206,7 @@ public class GameManager : MonoBehaviour
         playerScore++;
         scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
         scoreText2.text = $"Blue {playerScore} - {enemyScore} Red";
+        goalText.text = "Blue Scored";
         resetRoundEvent.Invoke();
     }
 
@@ -192,6 +215,7 @@ public class GameManager : MonoBehaviour
         enemyScore++;
         scoreText.text = $"Blue {playerScore} - {enemyScore} Red";
         scoreText2.text = $"Blue {playerScore} - {enemyScore} Red";
+        goalText.text = "Red Scored";
         resetRoundEvent.Invoke();
     }
 
@@ -209,6 +233,7 @@ public class GameManager : MonoBehaviour
         enemyFlagRetrievable = false;
     }
 
+    //handles respawning player and enemy when they die
     #region Respawn
     public void RespawnPlayer()
     {
@@ -312,11 +337,23 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
-
+        endText.text = "You Win!";
+        endCanvas.SetActive(true);
     }
 
     private void Lose()
     {
+        endText.text = "You Lose!";
+        endCanvas.SetActive(true);
+    }
 
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

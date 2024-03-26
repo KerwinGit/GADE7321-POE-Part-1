@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindFlagState : BaseState
+public class FindFlagState : BaseState  //this state is used by the AI to pathfind towards the flag that is in the player base
 {
-
-
     public override void EnterState(EnemyStateMachine enemy)
     {   
         ChoosePath(enemy);
@@ -24,7 +22,7 @@ public class FindFlagState : BaseState
         }
     }
 
-    public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other)
+    public override void OnTriggerEnter(EnemyStateMachine enemy, Collider other) //chooses next waypoint to set agent destination to
     {
         if (other.CompareTag("Red Barrier")|| other.CompareTag("Blue Barrier"))
         {
@@ -38,7 +36,7 @@ public class FindFlagState : BaseState
         }
     }
 
-    private void ChoosePath(EnemyStateMachine enemy)
+    private void ChoosePath(EnemyStateMachine enemy) //uses enemy progress ref enum to choose next destination
     {
         switch (enemy.enemyRefs.progressRef)
         {
@@ -54,7 +52,7 @@ public class FindFlagState : BaseState
         }
     }
 
-    private GameObject chooseRedBarrier(EnemyRefs enemy)
+    private GameObject chooseRedBarrier(EnemyRefs enemy) //randomly chooses a red barrier as agent destination
     {
         int seed = (int)System.DateTime.Now.Ticks;
         System.Random random = new System.Random(seed);
@@ -62,7 +60,7 @@ public class FindFlagState : BaseState
         return enemy.redBarriers[random.Next(0, 3)];
     }
 
-    private GameObject chooseBlueBarrier(EnemyRefs enemy)
+    private GameObject chooseBlueBarrier(EnemyRefs enemy) //randomly chooses a blue barrier as agent destination
     {
         int seed = (int)System.DateTime.Now.Ticks;
         System.Random random = new System.Random(seed);
